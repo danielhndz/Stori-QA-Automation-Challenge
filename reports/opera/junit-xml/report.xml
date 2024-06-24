@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="automation_practice_suite" errors="0" failures="1" skipped="0" tests="1" time="409.858" timestamp="2024-06-24T07:35:37.685896" hostname="Pavilion-MX"><testcase classname="tests.step_definitions.test_automation_practice" name="test_iframe_example" time="407.998"><failure message="selenium.common.exceptions.WebDriverException: Message: An unknown server-side error occurred while processing the command. Original error: Cannot start the 'com.opera.browser' application. Consider checking the driver's troubleshooting documentation. Original error: 'com.opera.Opera' or 'com.opera.browser.com.opera.Opera' never started. Consider checking the driver's troubleshooting documentation.&#10;Stacktrace:&#10;UnknownError: An unknown server-side error occurred while processing the command. Original error: Cannot start the 'com.opera.browser' application. Consider checking the driver's troubleshooting documentation. Original error: 'com.opera.Opera' or 'com.opera.browser.com.opera.Opera' never started. Consider checking the driver's troubleshooting documentation.&#10;    at getResponseForW3CError (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/errors.js:1145:9)&#10;    at asyncHandler (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:485:57)">.0 = &lt;list_iterator object at 0x7f94996e5490&gt;
+
+&gt;   kwargs = {arg: kwargs[arg] if arg in kwargs else request.getfixturevalue(arg) for arg in args}
+
+../../.local/lib/python3.9/site-packages/pytest_bdd/scenario.py:205: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:521: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:606: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:1076: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+../../.local/lib/python3.9/site-packages/pluggy/_hooks.py:513: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+../../.local/lib/python3.9/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+../../.local/lib/python3.9/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:1125: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:880: in call_fixture_func
+    fixture_result = next(generator)
+tests/conftest.py:80: in driver
+    driver = Remote(APPIUM_SERVER_URL,
+../../.local/lib/python3.9/site-packages/appium/webdriver/webdriver.py:229: in __init__
+    super().__init__(
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/webdriver.py:208: in __init__
+    self.start_session(capabilities)
+../../.local/lib/python3.9/site-packages/appium/webdriver/webdriver.py:320: in start_session
+    response = self.execute(RemoteCommand.NEW_SESSION, w3c_caps)
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/webdriver.py:347: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x7f9499682070&gt;
+response = {'status': 500, 'value': '{"value":{"error":"unknown error","message":"An unknown server-side error occurred while pro...asyncHandler (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:485:57)"}}'}
+
+    def check_response(self, response: Dict[str, Any]) -&gt; None:
+        """Checks that a JSON response from the WebDriver does not have an
+        error.
+    
+        :Args:
+         - response - The JSON response from the WebDriver server as a dictionary
+           object.
+    
+        :Raises: If the response contains an error message.
+        """
+        status = response.get("status", None)
+        if not status or status == ErrorCode.SUCCESS:
+            return
+        value = None
+        message = response.get("message", "")
+        screen: str = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get("value", None)
+            if value_json and isinstance(value_json, str):
+                import json
+    
+                try:
+                    value = json.loads(value_json)
+                    if len(value) == 1:
+                        value = value["value"]
+                    status = value.get("error", None)
+                    if not status:
+                        status = value.get("status", ErrorCode.UNKNOWN_ERROR)
+                        message = value.get("value") or value.get("message")
+                        if not isinstance(message, str):
+                            value = message
+                            message = message.get("message")
+                    else:
+                        message = value.get("message", None)
+                except ValueError:
+                    pass
+    
+        exception_class: Type[WebDriverException]
+        e = ErrorCode()
+        error_codes = [item for item in dir(e) if not item.startswith("__")]
+        for error_code in error_codes:
+            error_info = getattr(ErrorCode, error_code)
+            if isinstance(error_info, list) and status in error_info:
+                exception_class = getattr(ExceptionMapping, error_code, WebDriverException)
+                break
+        else:
+            exception_class = WebDriverException
+    
+        if not value:
+            value = response["value"]
+        if isinstance(value, str):
+            raise exception_class(value)
+        if message == "" and "message" in value:
+            message = value["message"]
+    
+        screen = None  # type: ignore[assignment]
+        if "screen" in value:
+            screen = value["screen"]
+    
+        stacktrace = None
+        st_value = value.get("stackTrace") or value.get("stacktrace")
+        if st_value:
+            if isinstance(st_value, str):
+                stacktrace = st_value.split("\n")
+            else:
+                stacktrace = []
+                try:
+                    for frame in st_value:
+                        line = frame.get("lineNumber", "")
+                        file = frame.get("fileName", "&lt;anonymous&gt;")
+                        if line:
+                            file = f"{file}:{line}"
+                        meth = frame.get("methodName", "&lt;anonymous&gt;")
+                        if "className" in frame:
+                            meth = f"{frame['className']}.{meth}"
+                        msg = "    at %s (%s)"
+                        msg = msg % (meth, file)
+                        stacktrace.append(msg)
+                except TypeError:
+                    pass
+        if exception_class == UnexpectedAlertPresentException:
+            alert_text = None
+            if "data" in value:
+                alert_text = value["data"].get("text")
+            elif "alert" in value:
+                alert_text = value["alert"].get("text")
+            raise exception_class(message, screen, stacktrace, alert_text)  # type: ignore[call-arg]  # mypy is not smart enough here
+&gt;       raise exception_class(message, screen, stacktrace)
+E       selenium.common.exceptions.WebDriverException: Message: An unknown server-side error occurred while processing the command. Original error: Cannot start the 'com.opera.browser' application. Consider checking the driver's troubleshooting documentation. Original error: 'com.opera.Opera' or 'com.opera.browser.com.opera.Opera' never started. Consider checking the driver's troubleshooting documentation.
+E       Stacktrace:
+E       UnknownError: An unknown server-side error occurred while processing the command. Original error: Cannot start the 'com.opera.browser' application. Consider checking the driver's troubleshooting documentation. Original error: 'com.opera.Opera' or 'com.opera.browser.com.opera.Opera' never started. Consider checking the driver's troubleshooting documentation.
+E           at getResponseForW3CError (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/errors.js:1145:9)
+E           at asyncHandler (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:485:57)
+
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/errorhandler.py:229: WebDriverException</failure></testcase></testsuite></testsuites>

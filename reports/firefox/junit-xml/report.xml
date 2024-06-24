@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="automation_practice_suite" errors="0" failures="13" skipped="0" tests="15" time="1907.601" timestamp="2024-06-24T06:05:45.985355" hostname="Pavilion-MX"><testcase classname="tests.step_definitions.test_automation_practice" name="test_suggession_class_example[Me-Mexico-suggession_box]" time="203.508" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_suggession_class_example[Uni-United States (USA)-suggession_box]" time="113.699"><failure message="selenium.common.exceptions.WebDriverException: Message: An unknown server-side error occurred while processing the command. Original error: 'POST /element' cannot be proxied to UiAutomator2 server because the instrumentation process is not running (probably crashed). Check the server log and/or the logcat output for more details&#10;Stacktrace:&#10;UnknownError: An unknown server-side error occurred while processing the command. Original error: 'POST /element' cannot be proxied to UiAutomator2 server because the instrumentation process is not running (probably crashed). Check the server log and/or the logcat output for more details&#10;    at UIA2Proxy.command (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/jsonwp-proxy/proxy.js:355:13)&#10;    at processTicksAndRejections (node:internal/process/task_queues:95:5)&#10;    at AndroidUiautomator2Driver.doFindElementOrEls (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/lib/commands/find.js:40:5)&#10;    at doFind (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/find.ts:47:17)&#10;    at wrappedCondFn (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/timeout.ts:137:14)&#10;    at spin (/usr/local/lib/node_modules/appium/node_modules/asyncbox/lib/asyncbox.js:219:20)&#10;    at waitForCondition (/usr/local/lib/node_modules/appium/node_modules/asyncbox/lib/asyncbox.js:236:10)&#10;    at AndroidUiautomator2Driver.implicitWaitForCondition (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/timeout.ts:139:12)&#10;    at AndroidUiautomator2Driver.findElOrEls (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/find.ts:70:5)&#10;    at AndroidUiautomator2Driver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:60:12)&#10;    at AndroidUiautomator2Driver.findElement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)">fixturefunc = &lt;function _ at 0x7f21bc34f040&gt;
+request = &lt;FixtureRequest for &lt;Function test_suggession_class_example[Uni-United States (USA)-suggession_box]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="0d48dfc3-e8fb-40f6-bcf2-c9b32f8756f4")&gt;, 'entry': 'Uni', 'option': 'United States (USA)'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:162: in _
+    utils.type_into_element(
+utils/utils.py:103: in type_into_element
+    close_alerts_if_exists(driver)
+utils/utils.py:135: in close_alerts_if_exists
+    driver.find_element(
+../../.local/lib/python3.9/site-packages/appium/webdriver/webdriver.py:383: in find_element
+    return self.execute(RemoteCommand.FIND_ELEMENT, {'using': by, 'value': value})['value']
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/webdriver.py:347: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;appium.webdriver.errorhandler.MobileErrorHandler object at 0x7f21bc310ee0&gt;
+response = {'status': 500, 'value': '{"value":{"error":"unknown error","message":"An unknown server-side error occurred while pro...lement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)"}}'}
+
+    def check_response(self, response: Dict[str, Any]) -&gt; None:
+        """
+        https://www.w3.org/TR/webdriver/#errors
+        """
+        payload = response.get('value', '')
+        if isinstance(payload, dict):
+            payload_dict = payload
+        else:
+            try:
+                payload_dict = json.loads(payload)
+            except (json.JSONDecodeError, TypeError):
+                return
+            if not isinstance(payload_dict, dict):
+                return
+        value = payload_dict.get('value')
+        if not isinstance(value, dict):
+            return
+        error = value.get('error')
+        if not error:
+            return
+    
+        message = value.get('message', error)
+        stacktrace = value.get('stacktrace', '')
+        # In theory, we should also be checking HTTP status codes.
+        # Java client, for example, prints a warning if the actual `error`
+        # value does not match to the response's HTTP status code.
+        exception_class: Type[sel_exceptions.WebDriverException] = ERROR_TO_EXC_MAPPING.get(
+            error, sel_exceptions.WebDriverException
+        )
+        if exception_class is sel_exceptions.WebDriverException and message:
+            if message == 'No such context found.':
+                exception_class = appium_exceptions.NoSuchContextException
+            elif message == 'That command could not be executed in the current context.':
+                exception_class = appium_exceptions.InvalidSwitchToTargetException
+    
+        if exception_class is sel_exceptions.UnexpectedAlertPresentException:
+            raise sel_exceptions.UnexpectedAlertPresentException(
+                msg=message,
+                stacktrace=format_stacktrace(stacktrace),
+                alert_text=value.get('data'),
+            )
+&gt;       raise exception_class(msg=message, stacktrace=format_stacktrace(stacktrace))
+E       selenium.common.exceptions.WebDriverException: Message: An unknown server-side error occurred while processing the command. Original error: 'POST /element' cannot be proxied to UiAutomator2 server because the instrumentation process is not running (probably crashed). Check the server log and/or the logcat output for more details
+E       Stacktrace:
+E       UnknownError: An unknown server-side error occurred while processing the command. Original error: 'POST /element' cannot be proxied to UiAutomator2 server because the instrumentation process is not running (probably crashed). Check the server log and/or the logcat output for more details
+E           at UIA2Proxy.command (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/jsonwp-proxy/proxy.js:355:13)
+E           at processTicksAndRejections (node:internal/process/task_queues:95:5)
+E           at AndroidUiautomator2Driver.doFindElementOrEls (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/lib/commands/find.js:40:5)
+E           at doFind (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/find.ts:47:17)
+E           at wrappedCondFn (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/timeout.ts:137:14)
+E           at spin (/usr/local/lib/node_modules/appium/node_modules/asyncbox/lib/asyncbox.js:219:20)
+E           at waitForCondition (/usr/local/lib/node_modules/appium/node_modules/asyncbox/lib/asyncbox.js:236:10)
+E           at AndroidUiautomator2Driver.implicitWaitForCondition (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/timeout.ts:139:12)
+E           at AndroidUiautomator2Driver.findElOrEls (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/find.ts:70:5)
+E           at AndroidUiautomator2Driver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:60:12)
+E           at AndroidUiautomator2Driver.findElement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)
+
+../../.local/lib/python3.9/site-packages/appium/webdriver/errorhandler.py:125: WebDriverException</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_suggession_class_example[Uni-United Arab Emirates-suggession_box]" time="38.590"><failure message="selenium.common.exceptions.WebDriverException: Message: An unknown server-side error occurred while processing the command. Original error: Appium Settings app is not running after 30000ms&#10;Stacktrace:&#10;UnknownError: An unknown server-side error occurred while processing the command. Original error: Appium Settings app is not running after 30000ms&#10;    at getResponseForW3CError (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/errors.js:1145:9)&#10;    at asyncHandler (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:485:57)">.0 = &lt;list_iterator object at 0x7f21bc1cc3d0&gt;
+
+&gt;   kwargs = {arg: kwargs[arg] if arg in kwargs else request.getfixturevalue(arg) for arg in args}
+
+../../.local/lib/python3.9/site-packages/pytest_bdd/scenario.py:205: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:521: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:606: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:1076: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+../../.local/lib/python3.9/site-packages/pluggy/_hooks.py:513: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+../../.local/lib/python3.9/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+../../.local/lib/python3.9/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:1125: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:880: in call_fixture_func
+    fixture_result = next(generator)
+tests/conftest.py:80: in driver
+    driver = Remote(APPIUM_SERVER_URL,
+../../.local/lib/python3.9/site-packages/appium/webdriver/webdriver.py:229: in __init__
+    super().__init__(
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/webdriver.py:208: in __init__
+    self.start_session(capabilities)
+../../.local/lib/python3.9/site-packages/appium/webdriver/webdriver.py:320: in start_session
+    response = self.execute(RemoteCommand.NEW_SESSION, w3c_caps)
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/webdriver.py:347: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x7f21bc1cc970&gt;
+response = {'status': 500, 'value': '{"value":{"error":"unknown error","message":"An unknown server-side error occurred while pro...asyncHandler (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:485:57)"}}'}
+
+    def check_response(self, response: Dict[str, Any]) -&gt; None:
+        """Checks that a JSON response from the WebDriver does not have an
+        error.
+    
+        :Args:
+         - response - The JSON response from the WebDriver server as a dictionary
+           object.
+    
+        :Raises: If the response contains an error message.
+        """
+        status = response.get("status", None)
+        if not status or status == ErrorCode.SUCCESS:
+            return
+        value = None
+        message = response.get("message", "")
+        screen: str = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get("value", None)
+            if value_json and isinstance(value_json, str):
+                import json
+    
+                try:
+                    value = json.loads(value_json)
+                    if len(value) == 1:
+                        value = value["value"]
+                    status = value.get("error", None)
+                    if not status:
+                        status = value.get("status", ErrorCode.UNKNOWN_ERROR)
+                        message = value.get("value") or value.get("message")
+                        if not isinstance(message, str):
+                            value = message
+                            message = message.get("message")
+                    else:
+                        message = value.get("message", None)
+                except ValueError:
+                    pass
+    
+        exception_class: Type[WebDriverException]
+        e = ErrorCode()
+        error_codes = [item for item in dir(e) if not item.startswith("__")]
+        for error_code in error_codes:
+            error_info = getattr(ErrorCode, error_code)
+            if isinstance(error_info, list) and status in error_info:
+                exception_class = getattr(ExceptionMapping, error_code, WebDriverException)
+                break
+        else:
+            exception_class = WebDriverException
+    
+        if not value:
+            value = response["value"]
+        if isinstance(value, str):
+            raise exception_class(value)
+        if message == "" and "message" in value:
+            message = value["message"]
+    
+        screen = None  # type: ignore[assignment]
+        if "screen" in value:
+            screen = value["screen"]
+    
+        stacktrace = None
+        st_value = value.get("stackTrace") or value.get("stacktrace")
+        if st_value:
+            if isinstance(st_value, str):
+                stacktrace = st_value.split("\n")
+            else:
+                stacktrace = []
+                try:
+                    for frame in st_value:
+                        line = frame.get("lineNumber", "")
+                        file = frame.get("fileName", "&lt;anonymous&gt;")
+                        if line:
+                            file = f"{file}:{line}"
+                        meth = frame.get("methodName", "&lt;anonymous&gt;")
+                        if "className" in frame:
+                            meth = f"{frame['className']}.{meth}"
+                        msg = "    at %s (%s)"
+                        msg = msg % (meth, file)
+                        stacktrace.append(msg)
+                except TypeError:
+                    pass
+        if exception_class == UnexpectedAlertPresentException:
+            alert_text = None
+            if "data" in value:
+                alert_text = value["data"].get("text")
+            elif "alert" in value:
+                alert_text = value["alert"].get("text")
+            raise exception_class(message, screen, stacktrace, alert_text)  # type: ignore[call-arg]  # mypy is not smart enough here
+&gt;       raise exception_class(message, screen, stacktrace)
+E       selenium.common.exceptions.WebDriverException: Message: An unknown server-side error occurred while processing the command. Original error: Appium Settings app is not running after 30000ms
+E       Stacktrace:
+E       UnknownError: An unknown server-side error occurred while processing the command. Original error: Appium Settings app is not running after 30000ms
+E           at getResponseForW3CError (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/errors.js:1145:9)
+E           at asyncHandler (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:485:57)
+
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/errorhandler.py:229: WebDriverException</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_suggession_class_example[Col-Colombia-suggession_box]" time="290.607" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_dropdown_example[right-dropdown-Option2]" time="142.091"><failure message="selenium.common.exceptions.NoSuchElementException: Message: An element could not be located on the page using the given search parameters.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception&#10;Stacktrace:&#10;NoSuchElementError: An element could not be located on the page using the given search parameters.&#10;    at AndroidUiautomator2Driver.findElOrEls (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/find.ts:86:11)&#10;    at processTicksAndRejections (node:internal/process/task_queues:95:5)&#10;    at AndroidUiautomator2Driver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:60:12)&#10;    at AndroidUiautomator2Driver.findElement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)">fixturefunc = &lt;function _ at 0x7f21bc345a60&gt;
+request = &lt;FixtureRequest for &lt;Function test_dropdown_example[right-dropdown-Option2]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="006abfc8-23d1-4dd1-aa82-2e7ddbffa933")&gt;, 'element': 'dropdown', 'option': 'Option2'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:137: in _
+    utils.select_from_dropdown(
+utils/utils.py:60: in select_from_dropdown
+    driver.find_element(by_selection, locator_selection).click()
+../../.local/lib/python3.9/site-packages/appium/webdriver/webdriver.py:383: in find_element
+    return self.execute(RemoteCommand.FIND_ELEMENT, {'using': by, 'value': value})['value']
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/webdriver.py:347: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;appium.webdriver.errorhandler.MobileErrorHandler object at 0x7f21bbf3a760&gt;
+response = {'status': 404, 'value': '{"value":{"error":"no such element","message":"An element could not be located on the page u...lement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)"}}'}
+
+    def check_response(self, response: Dict[str, Any]) -&gt; None:
+        """
+        https://www.w3.org/TR/webdriver/#errors
+        """
+        payload = response.get('value', '')
+        if isinstance(payload, dict):
+            payload_dict = payload
+        else:
+            try:
+                payload_dict = json.loads(payload)
+            except (json.JSONDecodeError, TypeError):
+                return
+            if not isinstance(payload_dict, dict):
+                return
+        value = payload_dict.get('value')
+        if not isinstance(value, dict):
+            return
+        error = value.get('error')
+        if not error:
+            return
+    
+        message = value.get('message', error)
+        stacktrace = value.get('stacktrace', '')
+        # In theory, we should also be checking HTTP status codes.
+        # Java client, for example, prints a warning if the actual `error`
+        # value does not match to the response's HTTP status code.
+        exception_class: Type[sel_exceptions.WebDriverException] = ERROR_TO_EXC_MAPPING.get(
+            error, sel_exceptions.WebDriverException
+        )
+        if exception_class is sel_exceptions.WebDriverException and message:
+            if message == 'No such context found.':
+                exception_class = appium_exceptions.NoSuchContextException
+            elif message == 'That command could not be executed in the current context.':
+                exception_class = appium_exceptions.InvalidSwitchToTargetException
+    
+        if exception_class is sel_exceptions.UnexpectedAlertPresentException:
+            raise sel_exceptions.UnexpectedAlertPresentException(
+                msg=message,
+                stacktrace=format_stacktrace(stacktrace),
+                alert_text=value.get('data'),
+            )
+&gt;       raise exception_class(msg=message, stacktrace=format_stacktrace(stacktrace))
+E       selenium.common.exceptions.NoSuchElementException: Message: An element could not be located on the page using the given search parameters.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+E       Stacktrace:
+E       NoSuchElementError: An element could not be located on the page using the given search parameters.
+E           at AndroidUiautomator2Driver.findElOrEls (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/find.ts:86:11)
+E           at processTicksAndRejections (node:internal/process/task_queues:95:5)
+E           at AndroidUiautomator2Driver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:60:12)
+E           at AndroidUiautomator2Driver.findElement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)
+
+../../.local/lib/python3.9/site-packages/appium/webdriver/errorhandler.py:125: NoSuchElementException</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_dropdown_example[right-dropdown-Option3]" time="118.418"><failure message="selenium.common.exceptions.NoSuchElementException: Message: An element could not be located on the page using the given search parameters.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception&#10;Stacktrace:&#10;NoSuchElementError: An element could not be located on the page using the given search parameters.&#10;    at AndroidUiautomator2Driver.findElOrEls (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/find.ts:86:11)&#10;    at processTicksAndRejections (node:internal/process/task_queues:95:5)&#10;    at AndroidUiautomator2Driver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:60:12)&#10;    at AndroidUiautomator2Driver.findElement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)">fixturefunc = &lt;function _ at 0x7f21bc345a60&gt;
+request = &lt;FixtureRequest for &lt;Function test_dropdown_example[right-dropdown-Option3]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="2f5c512b-ac07-4f47-9a64-2978c5436810")&gt;, 'element': 'dropdown', 'option': 'Option3'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:137: in _
+    utils.select_from_dropdown(
+utils/utils.py:60: in select_from_dropdown
+    driver.find_element(by_selection, locator_selection).click()
+../../.local/lib/python3.9/site-packages/appium/webdriver/webdriver.py:383: in find_element
+    return self.execute(RemoteCommand.FIND_ELEMENT, {'using': by, 'value': value})['value']
+../../.local/lib/python3.9/site-packages/selenium/webdriver/remote/webdriver.py:347: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;appium.webdriver.errorhandler.MobileErrorHandler object at 0x7f21bc350760&gt;
+response = {'status': 404, 'value': '{"value":{"error":"no such element","message":"An element could not be located on the page u...lement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)"}}'}
+
+    def check_response(self, response: Dict[str, Any]) -&gt; None:
+        """
+        https://www.w3.org/TR/webdriver/#errors
+        """
+        payload = response.get('value', '')
+        if isinstance(payload, dict):
+            payload_dict = payload
+        else:
+            try:
+                payload_dict = json.loads(payload)
+            except (json.JSONDecodeError, TypeError):
+                return
+            if not isinstance(payload_dict, dict):
+                return
+        value = payload_dict.get('value')
+        if not isinstance(value, dict):
+            return
+        error = value.get('error')
+        if not error:
+            return
+    
+        message = value.get('message', error)
+        stacktrace = value.get('stacktrace', '')
+        # In theory, we should also be checking HTTP status codes.
+        # Java client, for example, prints a warning if the actual `error`
+        # value does not match to the response's HTTP status code.
+        exception_class: Type[sel_exceptions.WebDriverException] = ERROR_TO_EXC_MAPPING.get(
+            error, sel_exceptions.WebDriverException
+        )
+        if exception_class is sel_exceptions.WebDriverException and message:
+            if message == 'No such context found.':
+                exception_class = appium_exceptions.NoSuchContextException
+            elif message == 'That command could not be executed in the current context.':
+                exception_class = appium_exceptions.InvalidSwitchToTargetException
+    
+        if exception_class is sel_exceptions.UnexpectedAlertPresentException:
+            raise sel_exceptions.UnexpectedAlertPresentException(
+                msg=message,
+                stacktrace=format_stacktrace(stacktrace),
+                alert_text=value.get('data'),
+            )
+&gt;       raise exception_class(msg=message, stacktrace=format_stacktrace(stacktrace))
+E       selenium.common.exceptions.NoSuchElementException: Message: An element could not be located on the page using the given search parameters.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+E       Stacktrace:
+E       NoSuchElementError: An element could not be located on the page using the given search parameters.
+E           at AndroidUiautomator2Driver.findElOrEls (/home/Daniel/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/find.ts:86:11)
+E           at processTicksAndRejections (node:internal/process/task_queues:95:5)
+E           at AndroidUiautomator2Driver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:60:12)
+E           at AndroidUiautomator2Driver.findElement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)
+
+../../.local/lib/python3.9/site-packages/appium/webdriver/errorhandler.py:125: NoSuchElementException</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_switch_window_example" time="127.938"><failure message="assert ('30 DAY MONEY BACK GUARANTEE' in '&lt;?xml version=\'1.0\' encoding=\'UTF-8\' standalone=\'yes\' ?&gt;\r\n&lt;hierarchy index=&quot;0&quot; class=&quot;hierarchy&quot; rotation=&quot;0&quot;...&quot; selected=&quot;false&quot; bounds=&quot;[0,1857][1080,1920]&quot; displayed=&quot;true&quot; /&gt;\r\n  &lt;/android.widget.FrameLayout&gt;\r\n&lt;/hierarchy&gt;')&#10; +  where '&lt;?xml version=\'1.0\' encoding=\'UTF-8\' standalone=\'yes\' ?&gt;\r\n&lt;hierarchy index=&quot;0&quot; class=&quot;hierarchy&quot; rotation=&quot;0&quot;...&quot; selected=&quot;false&quot; bounds=&quot;[0,1857][1080,1920]&quot; displayed=&quot;true&quot; /&gt;\r\n  &lt;/android.widget.FrameLayout&gt;\r\n&lt;/hierarchy&gt;' = &lt;appium.webdriver.webdriver.WebDriver (session=&quot;605a0b3c-0b6c-4907-8568-69520598cd00&quot;)&gt;.page_source">fixturefunc = &lt;function _ at 0x7f21bc3455e0&gt;
+request = &lt;FixtureRequest for &lt;Function test_switch_window_example&gt;&gt;
+kwargs = {'body': 'We would never want you to be unhappy! If you are \nunsatisfied with your purchase, contact us in the first ...driver.webdriver.WebDriver (session="605a0b3c-0b6c-4907-8568-69520598cd00")&gt;, 'title': '"30 DAY MONEY BACK GUARANTEE"'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="605a0b3c-0b6c-4907-8568-69520598cd00")&gt;
+title = '30 DAY MONEY BACK GUARANTEE'
+body = 'We would never want you to be unhappy! If you are \nunsatisfied with your purchase, contact us in the first 30 days \nand we will give you a full refund.'
+
+    @then(parsers.parse('the user can see a message titled {title} with the following body:\n{body}'))
+    def _(driver: Remote, title: str, body: str):
+        sleep(8)
+        title = title.replace('"', '')
+        inline_body = body.replace('\n', '')
+&gt;       assert title in driver.page_source \
+            and (body in driver.page_source
+                 or inline_body in driver.page_source)
+E       assert ('30 DAY MONEY BACK GUARANTEE' in '&lt;?xml version=\'1.0\' encoding=\'UTF-8\' standalone=\'yes\' ?&gt;\r\n&lt;hierarchy index="0" class="hierarchy" rotation="0"..." selected="false" bounds="[0,1857][1080,1920]" displayed="true" /&gt;\r\n  &lt;/android.widget.FrameLayout&gt;\r\n&lt;/hierarchy&gt;')
+E        +  where '&lt;?xml version=\'1.0\' encoding=\'UTF-8\' standalone=\'yes\' ?&gt;\r\n&lt;hierarchy index="0" class="hierarchy" rotation="0"..." selected="false" bounds="[0,1857][1080,1920]" displayed="true" /&gt;\r\n  &lt;/android.widget.FrameLayout&gt;\r\n&lt;/hierarchy&gt;' = &lt;appium.webdriver.webdriver.WebDriver (session="605a0b3c-0b6c-4907-8568-69520598cd00")&gt;.page_source
+
+tests/step_definitions/test_automation_practice.py:114: AssertionError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_switch_tab_example" time="122.541"><failure message="IndexError: list index out of range">fixturefunc = &lt;function _ at 0x7f21bc3453a0&gt;
+request = &lt;FixtureRequest for &lt;Function test_switch_tab_example&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="50929bf4-fd18-4aba-9cde-1191e50f23fe")&gt;}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:105: in _
+    utils.switch_to_webview_context(driver)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="50929bf4-fd18-4aba-9cde-1191e50f23fe")&gt;
+
+    def switch_to_webview_context(driver: Remote):
+        close_alerts_if_exists(driver)
+&gt;       driver.switch_to.context(driver.contexts[1])
+E       IndexError: list index out of range
+
+utils/utils.py:52: IndexError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_switch_alert_example[Stori Card-alert_box-Alert-Hello Stori Card, share this practice page and share your knowledge]" time="106.241"><failure message="IndexError: list index out of range">fixturefunc = &lt;function _ at 0x7f21bc33ae50&gt;
+request = &lt;FixtureRequest for &lt;Function test_switch_alert_example[Stori Card-alert_box-Alert-Hello Stori Card, share this practice page and share your knowledge]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="48ad4aea-be70-467b-8d85-c68b5086d0ca")&gt;, 'element': 'alert_box', 'entry': 'Stori Card'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:84: in _
+    utils.switch_to_webview_context(driver)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="48ad4aea-be70-467b-8d85-c68b5086d0ca")&gt;
+
+    def switch_to_webview_context(driver: Remote):
+        close_alerts_if_exists(driver)
+&gt;       driver.switch_to.context(driver.contexts[1])
+E       IndexError: list index out of range
+
+utils/utils.py:52: IndexError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_switch_alert_example[Stori Card-alert_box-Confirm-Hello Stori Card, Are you sure you want to confirm?]" time="107.602"><failure message="IndexError: list index out of range">fixturefunc = &lt;function _ at 0x7f21bc33ae50&gt;
+request = &lt;FixtureRequest for &lt;Function test_switch_alert_example[Stori Card-alert_box-Confirm-Hello Stori Card, Are you sure you want to confirm?]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="7b2293f3-76da-44bf-a52c-e462dce63348")&gt;, 'element': 'alert_box', 'entry': 'Stori Card'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:84: in _
+    utils.switch_to_webview_context(driver)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="7b2293f3-76da-44bf-a52c-e462dce63348")&gt;
+
+    def switch_to_webview_context(driver: Remote):
+        close_alerts_if_exists(driver)
+&gt;       driver.switch_to.context(driver.contexts[1])
+E       IndexError: list index out of range
+
+utils/utils.py:52: IndexError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_web_table_example[25]" time="103.339"><failure message="IndexError: list index out of range">fixturefunc = &lt;function courses at 0x7f21bc33aaf0&gt;
+request = &lt;FixtureRequest for &lt;Function test_web_table_example[25]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="5cc11803-3b96-4ea6-83c4-2dcd48e7888f")&gt;, 'price': 25}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:59: in courses
+    utils.switch_to_webview_context(driver)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="5cc11803-3b96-4ea6-83c4-2dcd48e7888f")&gt;
+
+    def switch_to_webview_context(driver: Remote):
+        close_alerts_if_exists(driver)
+&gt;       driver.switch_to.context(driver.contexts[1])
+E       IndexError: list index out of range
+
+utils/utils.py:52: IndexError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_web_table_example[15]" time="111.667"><failure message="IndexError: list index out of range">fixturefunc = &lt;function courses at 0x7f21bc33aaf0&gt;
+request = &lt;FixtureRequest for &lt;Function test_web_table_example[15]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="43a5f633-7d7a-442f-9608-358ba78f07ea")&gt;, 'price': 15}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:59: in courses
+    utils.switch_to_webview_context(driver)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="43a5f633-7d7a-442f-9608-358ba78f07ea")&gt;
+
+    def switch_to_webview_context(driver: Remote):
+        close_alerts_if_exists(driver)
+&gt;       driver.switch_to.context(driver.contexts[1])
+E       IndexError: list index out of range
+
+utils/utils.py:52: IndexError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_web_table_fixed_header_example[Engineer]" time="108.129"><failure message="IndexError: list index out of range">fixturefunc = &lt;function _ at 0x7f21bc33a700&gt;
+request = &lt;FixtureRequest for &lt;Function test_web_table_fixed_header_example[Engineer]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="25cf93a0-70e2-4b70-a65a-8f73353af713")&gt;, 'position': 'Engineer'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:35: in _
+    utils.switch_to_webview_context(driver)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="25cf93a0-70e2-4b70-a65a-8f73353af713")&gt;
+
+    def switch_to_webview_context(driver: Remote):
+        close_alerts_if_exists(driver)
+&gt;       driver.switch_to.context(driver.contexts[1])
+E       IndexError: list index out of range
+
+utils/utils.py:52: IndexError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_web_table_fixed_header_example[Businessman]" time="105.351"><failure message="IndexError: list index out of range">fixturefunc = &lt;function _ at 0x7f21bc33a700&gt;
+request = &lt;FixtureRequest for &lt;Function test_web_table_fixed_header_example[Businessman]&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="82372176-afbb-4de7-b625-e13651d99018")&gt;, 'position': 'Businessman'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:35: in _
+    utils.switch_to_webview_context(driver)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="82372176-afbb-4de7-b625-e13651d99018")&gt;
+
+    def switch_to_webview_context(driver: Remote):
+        close_alerts_if_exists(driver)
+&gt;       driver.switch_to.context(driver.contexts[1])
+E       IndexError: list index out of range
+
+utils/utils.py:52: IndexError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_iframe_example" time="103.416"><failure message="IndexError: list index out of range">fixturefunc = &lt;function _ at 0x7f21bc391ee0&gt;
+request = &lt;FixtureRequest for &lt;Function test_iframe_example&gt;&gt;
+kwargs = {'driver': &lt;appium.webdriver.webdriver.WebDriver (session="d422ec72-2cbe-4832-b9d5-a8d8e86dea64")&gt;, 'text': 'His mentorship program is most after in \nthe software testing community with long \nwaiting period.'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/step_definitions/test_automation_practice.py:24: in _
+    utils.switch_to_webview_context(driver)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="d422ec72-2cbe-4832-b9d5-a8d8e86dea64")&gt;
+
+    def switch_to_webview_context(driver: Remote):
+        close_alerts_if_exists(driver)
+&gt;       driver.switch_to.context(driver.contexts[1])
+E       IndexError: list index out of range
+
+utils/utils.py:52: IndexError</failure></testcase></testsuite></testsuites>

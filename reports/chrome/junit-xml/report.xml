@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="automation_practice_suite" errors="0" failures="1" skipped="0" tests="15" time="2850.733" timestamp="2024-06-24T04:33:09.764176" hostname="Pavilion-MX"><testcase classname="tests.step_definitions.test_automation_practice" name="test_suggession_class_example[Me-Mexico-suggession_box]" time="447.347" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_suggession_class_example[Uni-United States (USA)-suggession_box]" time="181.781" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_suggession_class_example[Uni-United Arab Emirates-suggession_box]" time="160.896" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_suggession_class_example[Col-Colombia-suggession_box]" time="190.327" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_dropdown_example[right-dropdown-Option2]" time="220.679" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_dropdown_example[right-dropdown-Option3]" time="211.734" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_switch_window_example" time="213.467"><failure message="assert ('30 DAY MONEY BACK GUARANTEE' in '&lt;?xml version=\'1.0\' encoding=\'UTF-8\' standalone=\'yes\' ?&gt;\r\n&lt;hierarchy index=&quot;0&quot; class=&quot;hierarchy&quot; rotation=&quot;0&quot;...&quot; selected=&quot;false&quot; bounds=&quot;[0,1857][1080,1920]&quot; displayed=&quot;true&quot; /&gt;\r\n  &lt;/android.widget.FrameLayout&gt;\r\n&lt;/hierarchy&gt;')&#10; +  where '&lt;?xml version=\'1.0\' encoding=\'UTF-8\' standalone=\'yes\' ?&gt;\r\n&lt;hierarchy index=&quot;0&quot; class=&quot;hierarchy&quot; rotation=&quot;0&quot;...&quot; selected=&quot;false&quot; bounds=&quot;[0,1857][1080,1920]&quot; displayed=&quot;true&quot; /&gt;\r\n  &lt;/android.widget.FrameLayout&gt;\r\n&lt;/hierarchy&gt;' = &lt;appium.webdriver.webdriver.WebDriver (session=&quot;c34034aa-c18d-4aef-8bb7-a2bc1956e159&quot;)&gt;.page_source">fixturefunc = &lt;function _ at 0x7f6bac318550&gt;, request = &lt;FixtureRequest for &lt;Function test_switch_window_example&gt;&gt;
+kwargs = {'body': 'We would never want you to be unhappy! If you are \nunsatisfied with your purchase, contact us in the first ...driver.webdriver.WebDriver (session="c34034aa-c18d-4aef-8bb7-a2bc1956e159")&gt;, 'title': '"30 DAY MONEY BACK GUARANTEE"'}
+
+    def call_fixture_func(
+        fixturefunc: "_FixtureFunc[FixtureValue]", request: FixtureRequest, kwargs
+    ) -&gt; FixtureValue:
+        if is_generator(fixturefunc):
+            fixturefunc = cast(
+                Callable[..., Generator[FixtureValue, None, None]], fixturefunc
+            )
+            generator = fixturefunc(**kwargs)
+            try:
+                fixture_result = next(generator)
+            except StopIteration:
+                raise ValueError(f"{request.fixturename} did not yield a value") from None
+            finalizer = functools.partial(_teardown_yield_fixture, fixturefunc, generator)
+            request.addfinalizer(finalizer)
+        else:
+            fixturefunc = cast(Callable[..., FixtureValue], fixturefunc)
+&gt;           fixture_result = fixturefunc(**kwargs)
+
+../../.local/lib/python3.9/site-packages/_pytest/fixtures.py:887: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+driver = &lt;appium.webdriver.webdriver.WebDriver (session="c34034aa-c18d-4aef-8bb7-a2bc1956e159")&gt;, title = '30 DAY MONEY BACK GUARANTEE'
+body = 'We would never want you to be unhappy! If you are \nunsatisfied with your purchase, contact us in the first 30 days \nand we will give you a full refund.'
+
+    @then(parsers.parse('the user can see a message titled {title} with the following body:\n{body}'))
+    def _(driver: Remote, title: str, body: str):
+        sleep(8)
+        title = title.replace('"', '')
+        inline_body = body.replace('\n', '')
+&gt;       assert title in driver.page_source \
+            and (body in driver.page_source
+                 or inline_body in driver.page_source)
+E       assert ('30 DAY MONEY BACK GUARANTEE' in '&lt;?xml version=\'1.0\' encoding=\'UTF-8\' standalone=\'yes\' ?&gt;\r\n&lt;hierarchy index="0" class="hierarchy" rotation="0"..." selected="false" bounds="[0,1857][1080,1920]" displayed="true" /&gt;\r\n  &lt;/android.widget.FrameLayout&gt;\r\n&lt;/hierarchy&gt;')
+E        +  where '&lt;?xml version=\'1.0\' encoding=\'UTF-8\' standalone=\'yes\' ?&gt;\r\n&lt;hierarchy index="0" class="hierarchy" rotation="0"..." selected="false" bounds="[0,1857][1080,1920]" displayed="true" /&gt;\r\n  &lt;/android.widget.FrameLayout&gt;\r\n&lt;/hierarchy&gt;' = &lt;appium.webdriver.webdriver.WebDriver (session="c34034aa-c18d-4aef-8bb7-a2bc1956e159")&gt;.page_source
+
+tests/step_definitions/test_automation_practice.py:114: AssertionError</failure></testcase><testcase classname="tests.step_definitions.test_automation_practice" name="test_switch_tab_example" time="206.595" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_switch_alert_example[Stori Card-alert_box-Alert-Hello Stori Card, share this practice page and share your knowledge]" time="184.211" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_switch_alert_example[Stori Card-alert_box-Confirm-Hello Stori Card, Are you sure you want to confirm?]" time="181.624" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_web_table_example[25]" time="134.767" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_web_table_example[15]" time="127.622" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_web_table_fixed_header_example[Engineer]" time="128.637" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_web_table_fixed_header_example[Businessman]" time="131.302" /><testcase classname="tests.step_definitions.test_automation_practice" name="test_iframe_example" time="128.477" /></testsuite></testsuites>
